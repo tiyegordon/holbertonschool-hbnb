@@ -1,4 +1,5 @@
-##instalation of dependencies##
+#flask = web framework, creates server, define URLS, handles HTTP requests.
+#flask-restx = builds REST APITs
 
 flask
 flask-restx
