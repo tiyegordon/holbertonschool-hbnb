@@ -1,7 +1,7 @@
 from flask_restx importNamespace, Resource, fields # Imports the tools to build/define API endpoints
 from app.blayer.facade import Facade #Import facade that connects API to business logic layer (blayer)
 
-api = Namespace('users', description = 'User operations') #Creates a namespace grouping all user related enpoitns together under one path00
+api = Namespace('user', description = 'User operations') #Creates a namespace grouping all user related enpoitns together under one path00
 
 facade = Facade() #Create a shared facade instance so all endpoints in this file can talk to business logic layer
 
