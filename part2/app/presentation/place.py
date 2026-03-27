@@ -1,7 +1,28 @@
-- namespace: 'place'
-- model fields: title, description, price, latitude, longitude, owner_id
-- endpoints:
-    GET /api/v1/place  #return all places
-    POST /api/v1/place #create new place
-    GET /api/v1/place/<id> #return one place (+owner name +amenities)
-    PUT /api/v1/place/<id> #update one place
+from flask_restx import Namespace, Resource, fields
+from app.services.facade import Facade
+
+api = Namespace ('place', description='Place operations')
+facade = Facade()
+
+# Model Definition  = mandotory inputs - first name, last name, and email
+place_model = api.model('Place',
+                        {
+                            'title': fields.String(required=True),
+                            'description': fields.String(required=True)
+                            'price': fields.Float(required=True),
+                            'latitudde': fields.Float(required=True),
+                            'owner_id': fields.String(required=True),
+
+#Endpoints directed to resource class so any thing that htis the path goes to this class
+
+@api.route('/')
+class UserList(Resource):
+    def get(self):          # When a GET request comes in, return all users
+    def post(self):        # When a POST request comes in, create a new user
+
+@api.route('/<id>')
+class UserResource(Resource):
+    def get(self):          # When a GET request comes in, return the one specific user
+    def put(self):          # When a PUT request comes in udpate the one specific user
+
+

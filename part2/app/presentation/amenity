@@ -3,7 +3,7 @@
 from flask_restx import Namespace, Resource, fileds
 from app.services.facade import Facade
 
-api = Namespace ('user', description = ' User operations')
+api = namespace ('user', description = ' User operations')
 facade = Facade()
 
 # Model Definition  = mandotory inputs - first name, last name, and email
