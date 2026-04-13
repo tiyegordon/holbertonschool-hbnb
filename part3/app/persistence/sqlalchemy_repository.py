@@ -1,68 +1,64 @@
 from abc import ABC, abstractmethod
 from typing import List, Any, Optional
+from app.persistence.repository import Repository
 
-#creating the storage template for the repositories
+class SQLAlchemyRepository(Repository):
+    """SQLAlchemy implementation of the Repository interface"""
 
-class Repository(ABC):
+    def __init__(self, model):
+        self.model = model
+        self.db = None
 
-    @abstractmethod
-    def add(self, obj) -> Any:
-        pass
+    def init_app(self, db):
+        """Initialize the repository with database instance"""
+        self.db = db
 
-    @abstractmethod
-    def get(self, obj_id) -> Optional[Any]:
-        pass
+    def _get_db_session(self):
+        """Get DB session"""
+        if self.db is None:
+            from app.extensions import db
+            self.db = db
+        return self.db.session
 
-    @abstractmethod
+    def add(self, obj: Any) -> Any:
+        """Add a new object to the database"""
+        session = self._get_db_session()
+        session.add(obj)
+        session.commit()
+        return obj
+
+    def get(self, obj_id: Any) -> Optional[Any]:
+        """Get an object by its ID"""
+        session = self._get_db_session()
+        return session.query(self.model).get(obj_id)
+
     def get_all(self) -> List[Any]:
-        pass
+        """Get all objects"""
+        session = self._get_db_session()
+        return session.query(self.model).all()
 
-    @abstractmethod
-    def update(self, obj_id, data) -> Optional[Any]:
-        pass
-
-    @abstractmethod
-    def delete(self, obj_id) -> bool:
-        pass
-
-    @abstractmethod
-    def get_by_attribute(self, attr_name, attr_value) -> Optional[Any]:
-        pass
-
-#Storage in the form of a Python dictionary
-
-class InMemoryRepository (Repository):
-
-    def __init__(self):
-        self._storage = {}
-
-    def add(self, obj):
-        self._storage[obj.id] = obj
-
-    def get(self, obj_id):
-        return self._storage.get(obj_id)
-
-    def get_all(self):
-        return list(self._storage.values())
-     
-    def update(self, obj_id, data):
+    def update(self, obj_id: Any, data: dict) -> Optional[Any]:
+        """Update an object by ID"""
         obj = self.get(obj_id)
         if obj:
             for key, value in data.items():
                 setattr(obj, key, value)
+            session = self._get_db_session()
+            session.commit()
             return obj
         return None
 
-    def get_by_attribute(self, attr_name, attr_value):
-        return next (
-                (obj for obj in self._storage.values()
-                 if getattr(obj, attr_name, None) == attr_value),
-                None
-            )
-
-    def delete(self, obj_id):
-        if obj_id in self._storage:
-            del self._storage[obj_id]
+    def delete(self, obj_id: Any) -> bool:
+        """Delete an object by ID"""
+        obj = self.get(obj_id)
+        if obj:
+            session = self._get_db_session()
+            session.delete(obj)
+            session.commit()
             return True
         return False
 
+    def get_by_attribute(self, attr_name: str, attr_value: Any) -> Optional[Any]:
+        """Get an object by a specific attribute"""
+        session = self._get_db_session()
+        return session.query(self.model).filter_by(**{attr_name: attr_value}).first()
