@@ -1,0 +1,29 @@
+mport pytest
+from app import create_app
+from app.extensions import db
+from app.blayer.user import User
+from app.blayer.place import Place
+from app.blayer.amentiy import Amenity
+
+@pytest.fixture
+def app():
+	app = create_app('testing')
+	with app.app _context():
+	db.create_all()
+	yield app
+	db.session.remove()
+	db.drop_all()
+
+@pytest.fixture
+def sample_user(app):
+	with app.app _context():
+		user = User(
+			first_name ='Owner',
+			last_name ='User',
+			email = 'owner@test.com'.
+			password = 'password123'
+		)
+		db.session.add(user)
+		db.session.commit()
+		return user.id
+
