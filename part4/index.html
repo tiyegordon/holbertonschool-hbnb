@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content ="width=device-width, initial-scale=1.0">
+	<title> HBnB Project </title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="icon" href="Hbnbicon.png" type="image/png">
+</head>
+<body>
+	<header>
+		<nav class="navbar">
+			<a href="index.html">
+				<img src="Hbnblogo.png" alt="HBnB Logo" class="logo">
+			</a>
+			<div class="nav-links">
+				<a href="index.html">Home</a>
+				<a href="login.html" id="login-link" class="login-button">Login</a>
+			</div>
+		</nav>
+	</header>
+
+	<main>
+		<section class="filter-section">
+			<label for="price-filter">Filter by Max Price:</label>
+			<select id="price-filter">
+				<option value="all">All</option>
+				<option value="10">$10</option>
+				<option value="50">$50</option>
+				<option value="100">$100</option>
+			</select>
+		</section>
+
+		<section id="places-list" class="places-list">
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2026 HBNB. All rights reserved.</p>
+	</footer>
+
+	<script src="scripts.js"></script>
+</body>
+</html>
+
