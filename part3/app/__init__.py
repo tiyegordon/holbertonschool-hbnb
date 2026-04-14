@@ -26,9 +26,9 @@ def create_app(config_name='default'):
     
     # Import models after db is initialized to avoid circular imports
     from app.blayer.user import User
-    from app.blayer.place import Place
     from app.blayer.review import Review
     from app.blayer.amenity import Amenity
+    from app.blayer.place import Place
     from app.blayer.facade import Facade
     from app.persistence.sqlalchemy_repository import SQLAlchemyRepository
     
@@ -44,7 +44,7 @@ def create_app(config_name='default'):
     review_repo.init_app(db)
     amenity_repo.init_app(db)
 
-    # Create facade with SQLAlchemy repositories
+   # Create facade with SQLAlchemy repositories
     facade = Facade(user_repo=user_repo, place_repo=place_repo, review_repo=review_repo, amenity_repo=amenity_repo)
     
     # Make facade available globally (you might want to use a better pattern like app context)

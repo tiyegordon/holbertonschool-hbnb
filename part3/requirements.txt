@@ -1,0 +1,12 @@
+#flask = web framework, creates server, define URLS, handles HTTP requests.
+#flask-restx = builds REST APIs
+#flask-sqlalchemy = SQLAlchemy integration for Flask
+#flask-jwt-extended = JWT authentication for Flask
+#bcrypt = Password hashing
+
+flask
+flask-restx
+flask-sqlalchemy
+flask-jwt-extended
+bcrypt
+
